@@ -1,0 +1,69 @@
+
+- dump all your data from the SQLite database to a file.
+
+$ python manage.py dumpdata > db.json
+
+create new role
+> sudo -u postgres createuser --interactive
+
+create a db
+>sudo -u postgres createdb employeedb 
+
+
+list roles
+> \du
+
+
+grant connection to database,
+> GRANT CONNECT ON DATABASE employeedb TO djangouser;
+
+grant conenction to schema
+> GRANT USAGE ON SCHEMA public TO djangouser;
+
+change password
+> ALTER USER djangouser WITH PASSWORD 'django'
+
+
+install psycopg driver (should be in virtual env)
+> pip install psycopg2-binary
+
+
+settings.py
+---------------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postsdb',
+        'USER': 'djangouser',
+        'PASSWORD': 'django',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+> python manage.py runserver
+
+> python manage.py migrate
+
+> python manage.py shell
+
+run the below code on shell,
+
+from django.contrib.contenttypes.models import ContentType
+ContentType.objects.all().delete()
+
+
+Finally, load data from your backup.
+> python manage.py loaddata db.json
+
+
+
+dummy
+------
+username - user1
+database - employeedb
+password - pass1
+
+
+
+
